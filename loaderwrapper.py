@@ -4,57 +4,65 @@ import csv
 from datetime import datetime
 
 class LoaderWrapper:
-	def __init__(self):
-		self.loader = Instaloader()
+        def __init__(self):
+                self.loader = Instaloader()
 
-	def login(self, login_name: str):
-		"""Logs in Instagram given a username"""
-		try:
-			self.loader.load_session_from_file(login_name)
-		except FileNotFoundError:
-			self.loader.context.log("Session file does not exist yet - Logging in.")
-		if not self.loader.context.is_logged_in:
-			self.loader.interactive_login(login_name)
-			self.loader.save_session_to_file()
+        def login(self, login_name: str):
+                """Logs in Instagram given a username"""
+                try:
+                        self.loader.load_session_from_file(login_name)
+                except FileNotFoundError:
+                        self.loader.context.log("Session file does not exist yet - Logging in.")
+                if not self.loader.context.is_logged_in:
+                        self.loader.interactive_login(login_name)
+                        self.loader.save_session_to_file()
 
-	def getUserInfo(self, target_id: id):
-		"""Saves infos about a user given his/her id"""
-		if not os.path.exists(str(target_id)):
-			os.makedirs(str(target_id))
-		os.chdir(str(target_id))
+        def getUserInfo(self, target_id: int):
+                """Saves infos about a user given his/her id"""
+                if not os.path.exists(str(target_id)):
+                        os.makedirs(str(target_id))
+                os.chdir(str(target_id))
 
-		self.getUserStats(target_id)
-		self.getUserPosts(target_id)
-		self.getUserStories(target_id)
-		self.getUserHighlights(target_id)
+                self.getUserStats(target_id)
+                self.getUserPosts(target_id)
+                self.getUserStories(target_id)
+                self.getUserHighlights(target_id)
+                self.getUserTagged(target_id)
 
-	def getUserStats(self, target_id: int):
-		"""Saves infos about a user given his/her id such as username,
-		#followers, #followees and biography at a specific time"""
-		profile = Profile.from_id(self.loader.context, target_id)
+        def getUserStats(self, target_id: int):
+                """Saves infos about a user given his/her id such as username,
+                #followers, #followees and biography at a specific time"""
+                profile = Profile.from_id(self.loader.context, target_id)
 
-		with open('stats.csv', 'w') as csvfile:
-			spamwriter = csv.writer(csvfile, delimiter='|',
-				quoting=csv.QUOTE_MINIMAL)
-			spamwriter.writerow([datetime.today(), profile.username, profile.followers, profile.followees, profile.biography])
+                with open('stats.csv', 'w') as csvfile:
+                        spamwriter = csv.writer(csvfile, delimiter='|',
+                                                quoting=csv.QUOTE_MINIMAL)
+                        spamwriter.writerow([datetime.today(), profile.username, profile.followers, profile.followees, profile.biography])
 
-	def getUserPosts(self, target_id: int):
-		"""Downloads a user's posts given his/her id""" 
-		profile = Profile.from_id(self.loader.context, target_id)
 
-		for post in profile.get_posts():
-			self.loader.download_post(post, ':posts')
+        def getUserPosts(self, target_id: int):
+                """Downloads a user's posts given his/her id"""
+                profile = Profile.from_id(self.loader.context, target_id)
 
-	def getUserStories(self, target_id: int):
-		"""Downloads a user's stories given his/her id"""
-		for story in self.loader.get_stories([target_id]):
-			for item in story.get_items():
-				self.loader.download_storyitem(item, ':stories')
+                for post in profile.get_posts():
+                        self.loader.download_post(post, ':posts')
 
-	def getUserHighlights(self, target_id: int):
-		"""Downloads a user's highlights given his/her id"""
-		profile = Profile.from_id(self.loader.context, target_id)
+        def getUserStories(self, target_id: int):
+                """Downloads a user's stories given his/her id"""
+                for story in self.loader.get_stories([target_id]):
+                        for item in story.get_items():
+                                self.loader.download_storyitem(item, ':stories')
 
-		for highlight in self.loader.get_highlights(profile):
-			for item in highlight.get_items():
-				self.loader.download_storyitem(item, ':hightlights')
+        def getUserHighlights(self, target_id: int):
+                """Downloads a user's highlights given his/her id"""
+                profile = Profile.from_id(self.loader.context, target_id)
+
+                for highlight in self.loader.get_highlights(profile):
+                        for item in highlight.get_items():
+                                self.loader.download_storyitem(item, ':hightlights')
+
+        def getUserTagged(self, target_id: int):
+                """Downloads all posts where a profile is tagged"""
+                profile = Profile.from_id(self.loader.context, target_id)
+
+                self.loader.download_tagged(profile, ':tagged')
