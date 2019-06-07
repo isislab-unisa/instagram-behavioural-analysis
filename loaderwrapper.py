@@ -77,7 +77,17 @@ class LoaderWrapper:
                                                 quoting=csv.QUOTE_MINIMAL)
                         for follower in profile.get_followers():
                                 spamwriter.writerow([follower.userid, follower.username])
-                
+
+        def getUserFoollowees(self, target_id: int):
+                """Writes in a file all user's followees given his/her id"""
+                profile = Profile.from_id(self.loader.context, target_id)
+
+                with open('followees.csv', 'w') as csvfile:
+                        spamwriter = csv.writer(csvfile, delimiter='|',
+                                                quoting=csv.QUOTE_MINIMAL)
+                        for followee in profile.get_followees():
+                                spamwriter.writerow([followee.userid, followee.username])
+
         def getPostsByHashtag(self, hashtag: str):
                 """Downloads media related to a given hashtag"""
                 for post in self.loader.get_hashtag_posts(hashtag):
