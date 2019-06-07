@@ -23,10 +23,10 @@ class LoaderWrapper:
                         os.makedirs(str(target_id))
                 os.chdir(str(target_id))
 
-                self.getUserStats(target_id)
-                self.getUserPosts(target_id)
-                self.getUserStories(target_id)
-                self.getUserHighlights(target_id)
+                # self.getUserStats(target_id)
+                # self.getUserPosts(target_id)
+                # self.getUserStories(target_id)
+                # self.getUserHighlights(target_id)
                 self.getUserTagged(target_id)
 
         def getUserStats(self, target_id: int):
@@ -65,4 +65,5 @@ class LoaderWrapper:
                 """Downloads all posts where a profile is tagged"""
                 profile = Profile.from_id(self.loader.context, target_id)
 
-                self.loader.download_tagged(profile, ':tagged')
+                for post in profile.get_tagged_posts():
+                        self.loader.download_post(post, ':tagged')
