@@ -68,7 +68,17 @@ class LoaderWrapper:
                 for post in profile.get_tagged_posts():
                         self.loader.download_post(post, ':tagged')
 
-        def getPostsByHashtah(self, hashtag: str):
+        def getUserFoollowers(self, target_id: int):
+                """Writes in a file all user's followers given his/her id"""
+                profile = Profile.from_id(self.loader.context, target_id)
+
+                with open('followers.csv', 'w') as csvfile:
+                        spamwriter = csv.writer(csvfile, delimiter='|',
+                                                quoting=csv.QUOTE_MINIMAL)
+                        for follower in profile.get_followers():
+                                spamwriter.writerow([follower.userid, follower.username])
+                
+        def getPostsByHashtag(self, hashtag: str):
                 """Downloads media related to a given hashtag"""
                 for post in self.loader.get_hashtag_posts(hashtag):
                         self.loader.download_post(post, '#'+hashtag)
