@@ -71,22 +71,23 @@ class LoaderWrapper:
         for post in profile.get_tagged_posts():
             self.loader.download_post(post, ':tagged')
 
-    def getUserFoollowers(self, target_id: int):
+    def getUserFollowers(self, target_id: int):
         """Writes in a file all user's followers given his/her id"""
         profile = Profile.from_id(self.loader.context, target_id)
 
         with open('followers.csv', 'w') as csvfile:
-            spamwriter = csv.writer(csvfile, delimiter='|',
+            spamwriter = csv.writer(csvfile, delimiter=',',
                                     quoting=csv.QUOTE_MINIMAL)
 
-            spamwriter.writerow([follower.userid, follower.username])
+            for follower in profile.get_followers():
+                spamwriter.writerow([follower.userid, follower.username])
 
-    def getUserFoollowees(self, target_id: int):
+    def getUserFollowees(self, target_id: int):
         """Writes in a file all user's followees given his/her id"""
         profile = Profile.from_id(self.loader.context, target_id)
 
         with open('followees.csv', 'w') as csvfile:
-            spamwriter = csv.writer(csvfile, delimiter='|',
+            spamwriter = csv.writer(csvfile, delimiter=',',
                                     quoting=csv.QUOTE_MINIMAL)
 
             for followee in profile.get_followees():
