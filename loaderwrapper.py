@@ -36,7 +36,7 @@ class LoaderWrapper:
         #followers, #followees and biography at a specific time"""
         profile = Profile.from_id(self.loader.context, target_id)
 
-        with open('stats.csv', 'w') as csvfile:
+        with open(str(target_id) + '_stats.txt', 'w') as csvfile:
             spamwriter = csv.writer(csvfile, delimiter='|',
                                     quoting=csv.QUOTE_MINIMAL)
 
@@ -75,7 +75,7 @@ class LoaderWrapper:
         """Writes in a file all user's followers given his/her id"""
         profile = Profile.from_id(self.loader.context, target_id)
 
-        with open('followers.csv', 'w') as csvfile:
+        with open(str(target_id) + '_followers.csv', 'w') as csvfile:
             spamwriter = csv.writer(csvfile, delimiter=',',
                                     quoting=csv.QUOTE_MINIMAL)
 
@@ -85,8 +85,8 @@ class LoaderWrapper:
     def getUserFollowees(self, target_id: int):
         """Writes in a file all user's followees given his/her id"""
         profile = Profile.from_id(self.loader.context, target_id)
-
-        with open('followees.csv', 'w') as csvfile:
+        
+        with open(str(target_id) + '_followees.csv', 'w') as csvfile:
             spamwriter = csv.writer(csvfile, delimiter=',',
                                     quoting=csv.QUOTE_MINIMAL)
 
