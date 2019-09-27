@@ -15,7 +15,7 @@ mapquest_key = ""
 """
     Get a place name by reverse geocoding
 """
-function get_location(lat::Float64, lng::Float64)
+function get_location(lat::Real, lng::Real)
     lat_str = string(lat)
     lng_str = string(lng)
     endpoint = "https://www.mapquestapi.com/geocoding/v1/reverse?key=" * mapquest_key *
@@ -43,10 +43,18 @@ function get_post_info(fname::AbstractString)
 
     id::Int64 = parse(Int, dict["owner"]["id"])
 
-    edges = dict["edge_media_to_caption"]["edges"]
-    caption = length(edges) > 0 ? edges[1]["node"]["text"] : nothing
-    hashtags::Array{String} = caption isa Nothing ? [] :
+    #Retrieve hashtags from caption
+    caption_edges = dict["edge_media_to_caption"]["edges"]
+    caption = length(caption_edges) > 0 ? caption_edges[1]["node"]["text"] : nothing
+    caption_hashtags::Array{String} = caption isa Nothing ? [] :
                                 map(x->string(x.match), eachmatch(r"(?<!\w)#\w+", caption))
+    #Retrieve hashtags from comments
+    comment_edges = dict["edge_media_to_parent_comment"]["edges"]
+    owner_comments = map(x->x["node"]["text"],
+                        filter(x->x["node"]["owner"]["id"] == string(id), comment_edges))
+    hashtag_comments = map(x->string(x.match), eachmatch(r"(?<!\w)#\w+", join((h for h in owner_comments), " ")))
+    #Merge caption and comments hashtags
+    hashtags = union(caption_hashtags, hashtag_comments)
 
     location_dict = dict["location"]
     location::Union{String,Nothing} = location_dict isa Nothing ? nothing : get_location(location_dict["lat"], location_dict["lng"]) 
@@ -99,10 +107,11 @@ function create_loc_hypergraph(directory::AbstractString, T::Type{<:Real})
         end
     end
 
-    println(locations_dict)
+    #println(locations_dict)
     for v in values(locations_dict)
         add_hyperedge!(h, vertices = v)
     end
+    h
 end
 
 """
@@ -130,10 +139,11 @@ function create_hashtag_hypergraph(directory::AbstractString, T::Type{<:Real})
         end
     end
 
-    println(hashtags_dict)
+    #println(hashtags_dict)
     for v in values(hashtags_dict)
         add_hyperedge!(h, vertices = v)
     end
+    h
 end
 
 end
