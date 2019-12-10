@@ -1,0 +1,73 @@
+<div class="container mt-5 mb-3 mx-auto">
+    <h2>Checkins progress</h2>
+    <p>Select a location, a format, day or week, and a category (and eventually a day) to show the most popular stories
+        categories made on that week (or day) in that location.</p>
+</div>
+<div class="container center-block">
+    <div class="row">
+        <ul id="prog-list" class="list-group list-group-horizontal list-unstyled mt-5 mb-3 mx-auto">
+            <li class="group-list-item">
+                <label for="prog-locations" class="mr-sm-2"><strong>Location</strong></label>
+                <select name="prog-locations" id="prog-locations" class="mb-2 mr-sm-2" onChange="showCategories()">
+                    <option value="amsterdam" selected="selected">Amsterdam</option>
+                    <option value="barcelona">Barcelona</option>
+                    <option value="berlin">Berlin</option>
+                    <option value="boston">Boston</option>
+                    <option value="chicago">Chicago</option>
+                    <option value="lasvegas">Las Vegas</option>
+                    <option value="london">London</option>
+                    <option value="losangeles">Los Angeles</option>
+                    <option value="madrid">Madrid</option>
+                    <option value="miami">Miami</option>
+                    <option value="milan">Milan</option>
+                    <option value="newyork">New York</option>
+                    <option value="paris">Paris</option>
+                    <option value="rio">Rio de Janeiro</option>
+                    <option value="rome">Rome</option>
+                    <option value="sandiego">San Diego</option>
+                    <option value="sanfrancisco">San Francisco</option>
+                    <option value="sydney">Sydney</option>
+                    <option value="toronto">Toronto</option>
+                    <option value="vancouver">Vancouver</option>
+                </select>
+            </li>
+            <li class="group-list-item">
+                <label for="day-or-week-select" class="mr-sm-2"><strong>Day/Week</strong></label>
+                <select name="day-or-week-select" id="day-or-week-select" class="mb-2 mr-sm-2"
+                    onChange="initProgressChart()">
+                    <option value="week" selected="selected">Week</option>
+                    <option value="day">Day</option>
+                </select>
+            </li>
+            <li class="group-list-item">
+                <label for="prog-categories-select" class="mr-sm-2"><strong>Category</strong></label>
+                <select name="prog-categories-select" id="prog-categories-select" class="mb-2 mr-sm-2"></select>
+            </li>
+            <li class="group-list-item">
+                <label for="days" class="mr-sm-2"><strong>Day</strong></label>
+                <select id="days-select" name="days-select" class="mb-2 mr-sm-2">
+                    <option value="Monday" selected="selected">Monday</option>
+                    <option value="Tuesday">Tuesday</option>
+                    <option value="Wednesday">Wednesday</option>
+                    <option value="Thursday">Thursday</option>
+                    <option value="Friday">Friday</option>
+                    <option value="Saturday">Saturday</option>
+                    <option value="Sunday">Sunday</option>
+                </select>
+            </li>
+        </ul>
+    </div>
+    <div class="row">
+        <ul class="list-group list-group-horizontal list-unstyled mt-2 mb-3 mx-auto">
+            <li class="group-list-item">
+                <button id="prog-btn" class="btn btn-primary mr-2">Go</button>
+            </li>
+            <li class="group-list-item">
+                <button id="clear-btn" class="btn btn-danger ml-2">Clear</button>
+            </li>
+        </ul>
+    </div>
+    <div id="prog-chart-div" class="row mb-5 chart-div">
+        <canvas id="progChart"></canvas>
+    </div>
+</div>

@@ -1,0 +1,52 @@
+<div class="container mt-5 mb-3 mx-auto">
+    <h2>Top 20 categories</h2>
+    <p>Select a day and a location to show the most popular stories categories made on that day in that location.</p>
+</div>
+<div class="container">
+    <div class="row">
+        <ul class="list-group list-group-horizontal list-unstyled mt-5 mb-3 mx-auto">
+            <li class="group-list-item">
+                <label for="days" class="mr-sm-2"><strong>Day</strong></label>
+                <select id="days" name="days" class="mb-2 mr-sm-2">
+                    <option value="Monday" selected="selected">Monday</option>
+                    <option value="Tuesday">Tuesday</option>
+                    <option value="Wednesday">Wednesday</option>
+                    <option value="Thursday">Thursday</option>
+                    <option value="Friday">Friday</option>
+                    <option value="Saturday">Saturday</option>
+                    <option value="Sunday">Sunday</option>
+                </select>
+            </li>
+            <li class="group-list-item">
+                <label for="top-cat-locations" class="mr-sm-2"><strong>Location</strong></label>
+                <select id="top-cat-locations" name="top-cat-locations" class="mb-2 mr-sm-2">
+                    <option value="amsterdam" selected="selected">Amsterdam</option>
+                    <option value="barcelona">Barcelona</option>
+                    <option value="berlin">Berlin</option>
+                    <option value="boston">Boston</option>
+                    <option value="chicago">Chicago</option>
+                    <option value="lasvegas">Las Vegas</option>
+                    <option value="london">London</option>
+                    <option value="losangeles">Los Angeles</option>
+                    <option value="madrid">Madrid</option>
+                    <option value="miami">Miami</option>
+                    <option value="milan">Milan</option>
+                    <option value="newyork">New York</option>
+                    <option value="paris">Paris</option>
+                    <option value="rio">Rio de Janeiro</option>
+                    <option value="rome">Rome</option>
+                    <option value="sandiego">San Diego</option>
+                    <option value="sanfrancisco">San Francisco</option>
+                    <option value="sydney">Sydney</option>
+                    <option value="toronto">Toronto</option>
+                    <option value="vancouver">Vancouver</option>
+                </select>
+            </li>
+            <li class="group-list-item">
+                <button type="button" id="top-cat-btn" class="btn btn-primary mb-2 ml-3">Go</button>
+            </li>
+        </ul>
+    </div>
+    <div id="top-categories-chart-div" class="row chart-div">
+    </div>
+</div>
