@@ -2,24 +2,13 @@
     <h2>Top 20 categories</h2>
     <p>Select a day and a location to show the most popular stories categories made on that day in that location.</p>
 </div>
+
 <div class="container">
     <div class="row">
-        <ul class="list-group list-group-horizontal list-unstyled mt-5 mb-3 mx-auto">
+        <ul id="top-cat-list" class="list-group list-group-horizontal list-unstyled mt-5 mb-3 mx-auto">
             <li class="group-list-item">
-                <label for="days" class="mr-sm-2"><strong>Day</strong></label>
-                <select id="days" name="days" class="mb-2 mr-sm-2">
-                    <option value="Monday" selected="selected">Monday</option>
-                    <option value="Tuesday">Tuesday</option>
-                    <option value="Wednesday">Wednesday</option>
-                    <option value="Thursday">Thursday</option>
-                    <option value="Friday">Friday</option>
-                    <option value="Saturday">Saturday</option>
-                    <option value="Sunday">Sunday</option>
-                </select>
-            </li>
-            <li class="group-list-item">
-                <label for="top-cat-locations" class="mr-sm-2"><strong>Location</strong></label>
-                <select id="top-cat-locations" name="top-cat-locations" class="mb-2 mr-sm-2">
+                <label for="top-cat-locations" class="mb-2 mr-sm-2"><strong>Location</strong></label>
+                <select name="top-cat-locations" id="top-cat-locations" class="mb-2 mr-sm-4">
                     <option value="amsterdam" selected="selected">Amsterdam</option>
                     <option value="barcelona">Barcelona</option>
                     <option value="berlin">Berlin</option>
@@ -43,10 +32,41 @@
                 </select>
             </li>
             <li class="group-list-item">
-                <button type="button" id="top-cat-btn" class="btn btn-primary mb-2 ml-3">Go</button>
+                <label for="top-cat-period" class="mr-sm-2"><strong>Period</strong></label>
+                <select id="top-cat-period" name="top-cat-period" class="mb-2 mr-sm-4">
+                    <option value="week" selected="selected">Week</option>
+                    <option value="day">Day</option>
+                </select>
+            </li>
+            <li class="group-list-item">
+                <label for="top-cat-days" class="mr-sm-2"><strong>Day</strong></label>
+                <select id="top-cat-days" name="top-cat-days" class="mb-2 mr-sm-4">
+                    <option value="Monday" selected="selected">Monday</option>
+                    <option value="Tuesday">Tuesday</option>
+                    <option value="Wednesday">Wednesday</option>
+                    <option value="Thursday">Thursday</option>
+                    <option value="Friday">Friday</option>
+                    <option value="Saturday">Saturday</option>
+                    <option value="Sunday">Sunday</option>
+                </select>
             </li>
         </ul>
     </div>
-    <div id="top-categories-chart-div" class="row chart-div">
+    <div class="row">
+        <ul class="list-group list-group-horizontal list-unstyled mt-2 mb-3 mx-auto">
+            <li class="group-list-item">
+                <button id="top-cat-btn" class="btn btn-primary mr-2">Go</button>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div id="global-top-categories-chart-div" class="col chart-div float-left">
+            <canvas id="topCatChart"></canvas>
+        </div>
+        <div id="top-categories-chart-div" class="col chart-div float-right">
+        </div>
     </div>
 </div>
