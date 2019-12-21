@@ -4,12 +4,12 @@
         categories made on that week (or day) in that location.</p>
 </div>
 <div class="container center-block">
-    <div class="row">
+    <div class="row text-center">
         <ul id="prog-list" class="list-group list-group-horizontal list-unstyled mt-5 mb-3 mx-auto">
             <li class="group-list-item">
-                <label for="prog-locations" class="mr-sm-2"><strong>Location</strong></label>
-                <select name="prog-locations" id="prog-locations" class="mb-2 mr-sm-2">
-                    <option value="amsterdam" selected="selected">Amsterdam</option>
+                <label for="prog-locations" class="mb-2 mr-sm-2"><strong>Locations</strong></label>
+                <select name="prog-locations" id="prog-locations" multiple class="mb-2 mr-sm-2">
+                    <option value="amsterdam">Amsterdam</option>
                     <option value="barcelona">Barcelona</option>
                     <option value="berlin">Berlin</option>
                     <option value="boston">Boston</option>
@@ -39,8 +39,8 @@
                 </select>
             </li>
             <li class="group-list-item">
-                <label for="prog-categories" class="mr-sm-2"><strong>Category</strong></label>
-                <select name="prog-categories" id="prog-categories" class="mb-2 mr-sm-2"></select>
+                <label for="prog-categories" class="mr-sm-2"><strong>Categories</strong></label>
+                <select name="prog-categories" id="prog-categories" multiple class="mb-2 mr-sm-2"></select>
             </li>
             <li class="group-list-item">
                 <label for="prog-days" class="mr-sm-2"><strong>Day</strong></label>
@@ -61,12 +61,12 @@
             <li class="group-list-item">
                 <button id="prog-btn" class="btn btn-primary mr-2">Go</button>
             </li>
-            <li class="group-list-item">
+            <!-- <li class="group-list-item">
                 <button id="all-cat-btn" class="btn btn-secondary mr-2">Add all categories</button>
             </li>
             <li class="group-list-item">
                 <button id="all-loc-btn" class="btn btn-secondary mr-2">Add all locations</button>
-            </li>
+            </li> -->
             <li class="group-list-item">
                 <button id="clear-btn" class="btn btn-danger ml-2">Clear</button>
             </li>

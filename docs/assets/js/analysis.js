@@ -1,6 +1,3 @@
-let topCatChart
-let locationsDict = {}
-let categoriesDict = {}
 const defaultColors = {
     "amsterdam": [220, 20, 60, 1], // crimson
     "barcelona": [255, 127, 80, 1], // coral
@@ -24,8 +21,10 @@ const defaultColors = {
     "sydney": [138, 43, 226, 1], // blue violet
     "vancouver": [255, 0, 255, 1], // magenta fuchsia
 }
+let topCatChart
 
 $(document).ready(() => {
+    createMultiselects()
     createTopCategoriesChart()
     $("#top-cat-btn").trigger("click")
     $("#prog-locations").trigger("change")
@@ -33,47 +32,93 @@ $(document).ready(() => {
     $("#top-cat-period").trigger("change")
 });
 
-function getTopCatFormValues() {
-    const location = $("#top-cat-locations").val()
-    const locName = $("#top-cat-locations option:selected").text()
-    const format = $("#top-cat-period").val()
-    let period
-    if (format == "week")
-        period = format
-    else if (format == "day")
-        period = [$("#top-cat-days").val()]
-    return {
-        location: location,
-        locName: locName,
-        format: format,
-        period: period
-    }
+function createMultiselects() {
+    $('select[id=top-cat-locations], select[id=prog-locations]').multiselect({
+        nonSelectedText: 'Select Locations',
+        buttonWidth: '200px',
+        maxHeight: 250
+    })
+    $('#top-cat-single-location').multiselect({
+        nonSelectedText: 'Select Location',
+        buttonWidth: '200px',
+        maxHeight: 250,
+        multiple: false
+    })
+    $('#prog-categories').multiselect({
+        nonSelectedText: 'Select Categories',
+        buttonWidth: '300px',
+        maxHeight: 250
+    });
+    $('select[id=top-cat-period], select[id=prog-period]').multiselect({
+        nonSelectedText: 'Select Period',
+        multiple: false
+    })
+    $('select[id=top-cat-days], select[id=prog-days]').multiselect({
+        nonSelectedText: 'Select Day',
+        multiple: false,
+        buttonWidth: '200px',
+    })
 }
 
 $("#top-cat-btn").click(() => {
-    const values = getTopCatFormValues()
-    const location = values.location
-    const locName = values.locName
-    const format = values.format
-    const period = values.period
-    const path = "data/" + location + "/analysis.json"
-    const text = locName + " " + period + " top categories "
+    const locations = $("#top-cat-locations").val()
+    const singleLocation = $("#top-cat-single-location").val()
+    if (!(locations.includes(singleLocation)))
+        locations.push(singleLocation)
+    const locationsNames = $("#top-cat-locations option:selected").toArray().map(item => item.text)
+    const format = $("#top-cat-period").val()
+    let period
+    if (format === "week")
+        period = format
+    else if (format === "day")
+        period = $("#top-cat-days").val()
 
-    getTopCategories(location, path, format, period, categories => {
-        updateLocations(categories, location, period)
-        updateTopCategories(location, period)
-        sortDict(categoriesDict, sortedCategories => updateTopCategoriesChart(
-            sortedCategories.slice(0, 5), period
-        ))
-        createLocTopCategoriesChart(locationsDict[location][period], text)
+    const lastLocationIndex = locations.length - 1
+    const locationsDict = {}
+    const categoriesDict = {}
+    let i = 0
+    locations.forEach(location => {
+        const path = "data/" + location + "/analysis.json"
+        const locationCategories = []
+        getLocationCategoriesInfo(location, path, format, period, counts => {
+            const [r, g, b, a] = defaultColors[location]
+            const length = counts.length
+            counts.forEach(count => {
+                const index = counts.indexOf(count)
+                const red = ((255 - r) * (index / length)) + r
+                const green = ((255 - g) * (index / length)) + g
+                const blue = ((255 - b) * (index / length)) + b
+                const color = "rgba(" + red + "," + green + "," + blue + "," + a + ")"
+                const category = count["category"]
+                const checkins = count["checkins"]
+                locationCategories.push({ "category": category, "checkins": checkins, "color": color })
+            })
+            if ($("#top-cat-locations").val().includes(location)) {
+                locationsDict[location] = locationCategories
+                locationsDict[location].forEach(item => {
+                    if ([item["category"]] in categoriesDict)
+                        categoriesDict[[item["category"]]] += item["checkins"]
+                    else
+                        categoriesDict[[item["category"]]] = item["checkins"]
+                })
+            }
+            if (location === singleLocation) {
+                const text = location + " " + period + " top categories "
+                createLocTopCategoriesChart(locationCategories, text)
+            }
+            if (i++ === lastLocationIndex) {
+                sortDict(categoriesDict, sortedCategories => updateTopCategoriesChart(
+                    sortedCategories.slice(0, 5), locationsDict, period))
+            }
+        })
     })
 })
 
-function getTopCategories(location, path, format, period, f) {
+function getLocationCategoriesInfo(location, path, format, period, f) {
     $.getJSON(path, (json) => {
         const counts = {}
         $.each(json, (day) => {
-            if (format == "day" && day != period)
+            if (format === "day" && day != period)
                 return true
             $.each(json[day], (hour, categories) => {
                 $.each(categories, (category, checkins) => {
@@ -88,52 +133,23 @@ function getTopCategories(location, path, format, period, f) {
     })
 }
 
-function updateLocations(items, location, period) {
-    const length = items.length
-    locationsDict[location] = {}
-    locationsDict[location][period] = []
-    const [r, g, b, a] = defaultColors[location]
-    items.forEach(item => {
-        const index = items.indexOf(item)
-        const red = ((255 - r) * (index / length)) + r
-        const green = ((255 - g) * (index / length)) + g
-        const blue = ((255 - b) * (index / length)) + b
-        const color = "rgba(" + red + "," + green + "," + blue + "," + a + ")"
-        const category = item["category"]
-        const checkins = item["checkins"]
-        locationsDict[location][period].push({ "category": category, "checkins": checkins, "color": color })
-    })
-}
-
-function updateTopCategories(location, period) {
-    locationsDict[location][period].forEach(item => {
-        if ([item["category"]] in categoriesDict)
-            categoriesDict[[item["category"]]] += item["checkins"]
-        else
-            categoriesDict[[item["category"]]] = item["checkins"]
-    })
-}
-
-function updateTopCategoriesChart(categories, period) {
+function updateTopCategoriesChart(categories, locationsDict, period) {
     const names = categories.map(item => item["category"])
-
+    const locationsTopCategories = {}
     topCatChart.data.datasets = []
     topCatChart.data.labels = names
-
-    const locationsTopCategories = {}
     $.each(locationsDict, location => {
         locationsTopCategories[location] = []
         names.forEach(name => {
-            locationsDict[location][period].forEach(item => {
-                if (item["category"] == name) {
+            locationsDict[location].forEach(item => {
+                if (item["category"] === name) {
                     const info = { "category": item["category"], "checkins": item["checkins"], "color": item["color"] }
                     locationsTopCategories[location].push(info)
                 }
             })
         })
     })
-
-    $.each(locationsTopCategories, (location) => {
+    $.each(locationsTopCategories, location => {
         const newDataset = {
             label: location,
             backgroundColor: locationsTopCategories[location].map(location => location["color"]),
@@ -157,12 +173,15 @@ function sortDict(dict, f) {
 
 $("#top-cat-period").change(() => {
     const format = $("#top-cat-period").val()
-    const select = $("#top-cat-list li:last")
-    if (format == "week") {
-        select.addClass("d-none")
+    const label = $("#top-cat-list label[for=top-cat-days]")
+    const select = $("#top-cat-days")
+    if (format === "week") {
+        label.addClass("d-none")
+        select.next().hide()
     }
-    else if (format == "day") {
-        select.removeClass("d-none")
+    else if (format === "day") {
+        label.removeClass("d-none")
+        select.next().show()
     }
     resetTopCategoriesData()
 })
@@ -174,8 +193,6 @@ $("#top-cat-days").change(() => {
 function resetTopCategoriesData() {
     topCatChart.data.datasets = []
     topCatChart.data.labels = []
-    locationsDict = {}
-    categoriesDict = {}
     topCatChart.update();
 }
 
@@ -248,7 +265,7 @@ function createLocTopCategoriesChart(data, text) {
     const checkins = data.slice(0, 20).map(item => item["checkins"])
     const colors = data.slice(0, 20).map(item => item["color"])
     $("#top-categories-chart").remove()
-    $("#top-categories-chart-div").append("<canvas id='top-categories-chart'><canvas>")
+    $("#top-categories-chart-div").append("<canvas id='top-categories-chart'>")
     const ctx = document.querySelector("#top-categories-chart").getContext("2d");
     const chartData = {
         barPercentage: 1,
@@ -257,7 +274,6 @@ function createLocTopCategoriesChart(data, text) {
         borderColor: colors,
         data: checkins
     }
-
     const chartOptions = {
         responsive: true,
         maintainAspectRatio: false,
@@ -300,7 +316,6 @@ function createLocTopCategoriesChart(data, text) {
             }]
         }
     }
-
     const chart = new Chart(ctx, {
         type: "horizontalBar",
         data: {
@@ -319,32 +334,42 @@ function createLocTopCategoriesChart(data, text) {
 let progChart
 
 function getProgFormValues() {
-    const location = $("#prog-locations").val()
-    const category = $("#prog-categories").val()
+    const optionsLocValues = $("#prog-locations").val()
+    const optionsCatValues = $("#prog-categories").val()
     const format = $("#prog-period").val()
     let period
-    if (format == "week")
+    if (format === "week")
         period = format
-    else if (format == "day")
-        period = [$("#prog-days").val()]
+    else if (format === "day")
+        period = $("#prog-days").val()
     return {
-        location: location,
-        category: category,
+        locations: optionsLocValues,
+        categories: optionsCatValues,
         format: format,
         period: period,
     }
 }
 
 $("#prog-btn").click(() => {
-    const values = getProgFormValues()
-    const location = values.location
-    const category = values.category
-    const format = values.format
-    const period = values.period
-    let path = "data/" + location + "/analysis.json"
-    if (format == "day")
-        path = "local-time-" + path
-    getProgInfo(location, category, path, format, period)
+    const locations = $("#prog-locations").val()
+    const categories = $("#prog-categories").val()
+    const format = $("#prog-period").val()
+    let period
+    if (format === "week")
+        period = format
+    else if (format === "day")
+        period = $("#prog-days").val()
+
+    let pathPrefix = "data/"
+    if (format === "day")
+        pathPrefix = "local-time-" + pathPrefix
+
+    locations.forEach(location => {
+        const path = pathPrefix + location + "/analysis.json"
+        categories.forEach(category => {
+            getLocationProgInfo(location, category, path, format, period)
+        })
+    })
 })
 
 $("#clear-btn").click(() => {
@@ -352,15 +377,15 @@ $("#clear-btn").click(() => {
     progChart.update();
 })
 
-function getProgInfo(location, category, path, format, period) {
+function getLocationProgInfo(location, category, path, format, period) {
     $.getJSON(path, (json) => {
         const counts_dict = {}
         $.each(json, (day) => {
             $.each(json[day], (hour) => {
-                const occurrences = json[day][hour][category] == undefined ? 0 : json[day][hour][category]
-                if (format == "day" && day == period)
+                const occurrences = json[day][hour][category] === undefined ? 0 : json[day][hour][category]
+                if (format === "day" && day == period)
                     counts_dict[hour] = occurrences
-                else if (format == "week") {
+                else if (format === "week") {
                     if (day in counts_dict)
                         counts_dict[day] += occurrences
                     else {
@@ -454,76 +479,42 @@ function createProgressChart(labels, text) {
 $("#prog-period").change(() => {
     let labels, text
     const format = $("#prog-period").val()
-    if (format == "day") {
+    const label = $("#prog-list label[for=prog-days]")
+    const select = $("#prog-days")
+    if (format === "day") {
         text = "Checkins by hour"
         labels = Array(24).fill().map((_, i) => i)
-        $("#prog-list li:last").removeClass("d-none")
+        label.removeClass("d-none")
+        select.next().show()
     }
-    else if (format == "week") {
+    else if (format === "week") {
         text = "Checkins by days"
         labels = ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
-        $("#prog-list li:last").addClass("d-none")
+        label.addClass("d-none")
+        select.next().hide()
     }
     createProgressChart(labels, text)
 })
 
 $("#prog-locations").change(() => {
-    $("#prog-categories option").each(() => {
-        $(this).remove()
-    })
+    const categories = []
     const select = $("#prog-categories")
     select.empty()
-    const location = $("#prog-locations").val()
-    const categories = []
-    $.getJSON("data/" + location + "/analysis.json", (json) => {
-        $.each(json, (day) => {
-            $.each(json[day], (hour) => {
-                $.each(json[day][hour], (category) => {
-                    if (!categories.includes(category)) {
-                        categories.push(category)
-                    }
+    const locations = $("#prog-locations").val()
+    locations.forEach(location => {
+        $.getJSON("data/" + location + "/analysis.json", (json) => {
+            $.each(json, (day) => {
+                $.each(json[day], (hour) => {
+                    $.each(json[day][hour], (category) => {
+                        if (!categories.includes(category)) {
+                            categories.push(category)
+                        }
+                    })
                 })
             })
+            categories.sort((a, b) => a > b)
+            categories.forEach(category => select.append(new Option(category, category)))
+            $("#prog-categories").multiselect("rebuild")
         })
-        categories.sort((a, b) => a > b)
-        categories.forEach(category => select.append(new Option(category, category)))
-    })
-})
-
-$("#all-cat-btn").click(() => {
-    $("clear-btn").trigger("click")
-    const values = getProgFormValues()
-    const location = values.location
-    const format = values.format
-    const period = values.period
-    let path = "data/" + location + "/analysis.json"
-    if (format == "day")
-        path = "local-time-" + path
-    getTopCategories(location, path, format, period, categories => {
-        const mostPopular = categories.slice(0, 10)
-        const names = mostPopular.map(item => item["category"])
-        names.forEach(name => getProgInfo(location, name, path, format, period))
-    })
-})
-
-$("#all-loc-btn").click(() => {
-    $("clear-btn").trigger("click")
-    const values = getProgFormValues()
-    const category = values.category
-    const format = values.format
-    const period = values.period
-
-    let pathPrefix = "data/"
-    if (format == "day")
-        pathPrefix = "local-time-" + pathPrefix
-
-    const allLocations = []
-    $("#prog-locations option").each((key, name) => {
-        allLocations.push(name.value)
-    })
-
-    allLocations.forEach((location) => {
-        const path = pathPrefix + location + "/analysis.json"
-        getProgInfo(location, category, path, format, period)
     })
 })
