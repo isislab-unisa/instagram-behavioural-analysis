@@ -39,33 +39,31 @@ function createMultiselects() {
         maxHeight: 250
     })
     $('#top-cat-single-location').multiselect({
-        nonSelectedText: 'Select Location',
         buttonWidth: '200px',
         maxHeight: 250,
         multiple: false
     })
     $('#prog-categories').multiselect({
         nonSelectedText: 'Select Categories',
-        buttonWidth: '300px',
+        buttonWidth: '225px',
         maxHeight: 250
     });
     $('select[id=top-cat-period], select[id=prog-period]').multiselect({
-        nonSelectedText: 'Select Period',
         multiple: false
     })
     $('select[id=top-cat-days], select[id=prog-days]').multiselect({
-        nonSelectedText: 'Select Day',
         multiple: false,
-        buttonWidth: '200px',
+        buttonWidth: '170px',
     })
 }
 
 $("#top-cat-btn").click(() => {
     const locations = $("#top-cat-locations").val()
     const singleLocation = $("#top-cat-single-location").val()
+    const locationName = $("#top-cat-single-location option:selected").text()
     if (!(locations.includes(singleLocation)))
         locations.push(singleLocation)
-    const locationsNames = $("#top-cat-locations option:selected").toArray().map(item => item.text)
+    const numCategories = $("#num-categories").val()
     const format = $("#top-cat-period").val()
     let period
     if (format === "week")
@@ -103,12 +101,12 @@ $("#top-cat-btn").click(() => {
                 })
             }
             if (location === singleLocation) {
-                const text = location + " " + period + " top categories "
-                createLocTopCategoriesChart(locationCategories, text)
+                const text = locationName + " " + period + " top " + numCategories + " categories"
+                createLocTopCategoriesChart(locationCategories.slice(0, numCategories), text)
             }
             if (i++ === lastLocationIndex) {
                 sortDict(categoriesDict, sortedCategories => updateTopCategoriesChart(
-                    sortedCategories.slice(0, 5), locationsDict, period))
+                    sortedCategories.slice(0, numCategories), locationsDict, period))
             }
         })
     })
@@ -261,9 +259,9 @@ function createTopCategoriesChart() {
 }
 
 function createLocTopCategoriesChart(data, text) {
-    const categories = data.slice(0, 20).map(item => item["category"])
-    const checkins = data.slice(0, 20).map(item => item["checkins"])
-    const colors = data.slice(0, 20).map(item => item["color"])
+    const categories = data.map(item => item["category"])
+    const checkins = data.map(item => item["checkins"])
+    const colors = data.map(item => item["color"])
     $("#top-categories-chart").remove()
     $("#top-categories-chart-div").append("<canvas id='top-categories-chart'>")
     const ctx = document.querySelector("#top-categories-chart").getContext("2d");
