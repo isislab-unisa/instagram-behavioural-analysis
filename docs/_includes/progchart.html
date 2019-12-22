@@ -9,29 +9,10 @@
             <li class="group-list-item">
                 <label for="prog-locations" class="mb-2 mr-sm-2"><strong>Locations</strong></label>
                 <select name="prog-locations" id="prog-locations" multiple class="mb-2 mr-sm-2">
-                    <option value="amsterdam">Amsterdam</option>
-                    <option value="barcelona">Barcelona</option>
-                    <option value="berlin">Berlin</option>
-                    <option value="boston">Boston</option>
-                    <option value="chicago">Chicago</option>
-                    <option value="lasvegas">Las Vegas</option>
-                    <option value="london">London</option>
-                    <option value="losangeles">Los Angeles</option>
-                    <option value="madrid">Madrid</option>
-                    <option value="miami">Miami</option>
-                    <option value="milan">Milan</option>
-                    <option value="newyork">New York</option>
-                    <option value="paris">Paris</option>
-                    <option value="rio">Rio de Janeiro</option>
-                    <option value="rome">Rome</option>
-                    <option value="sandiego">San Diego</option>
-                    <option value="sanfrancisco">San Francisco</option>
-                    <option value="sydney">Sydney</option>
-                    <option value="toronto">Toronto</option>
-                    <option value="vancouver">Vancouver</option>
+                    {% include locselect.html %}
                 </select>
             </li>
-           <li class="group-list-item">
+            <li class="group-list-item">
                 <label for="prog-categories" class="mr-sm-2"><strong>Categories</strong></label>
                 <select name="prog-categories" id="prog-categories" multiple class="mb-2 mr-sm-2"></select>
             </li>
@@ -42,16 +23,10 @@
                     <option value="day">Day</option>
                 </select>
             </li>
-             <li class="group-list-item">
+            <li class="group-list-item">
                 <label for="prog-days" class="mr-sm-2"><strong>Day</strong></label>
                 <select id="prog-days" name="prog-days" class="mb-2 mr-sm-2">
-                    <option value="Monday" selected="selected">Monday</option>
-                    <option value="Tuesday">Tuesday</option>
-                    <option value="Wednesday">Wednesday</option>
-                    <option value="Thursday">Thursday</option>
-                    <option value="Friday">Friday</option>
-                    <option value="Saturday">Saturday</option>
-                    <option value="Sunday">Sunday</option>
+                    {% include dayselect.html %}
                 </select>
             </li>
         </ul>
@@ -61,12 +36,6 @@
             <li class="group-list-item">
                 <button id="prog-btn" class="btn btn-primary mr-2">Go</button>
             </li>
-            <!-- <li class="group-list-item">
-                <button id="all-cat-btn" class="btn btn-secondary mr-2">Add all categories</button>
-            </li>
-            <li class="group-list-item">
-                <button id="all-loc-btn" class="btn btn-secondary mr-2">Add all locations</button>
-            </li> -->
             <li class="group-list-item">
                 <button id="clear-btn" class="btn btn-danger ml-2">Clear</button>
             </li>

@@ -20,13 +20,7 @@
             <li class="group-list-item">
                 <label for="top-cat-days" class="mr-sm-2"><strong>Day</strong></label>
                 <select id="top-cat-days" name="top-cat-days" class="mb-2 mr-sm-4">
-                    <option value="Monday" selected="selected">Monday</option>
-                    <option value="Tuesday">Tuesday</option>
-                    <option value="Wednesday">Wednesday</option>
-                    <option value="Thursday">Thursday</option>
-                    <option value="Friday">Friday</option>
-                    <option value="Saturday">Saturday</option>
-                    <option value="Sunday">Sunday</option>
+                    {% include dayselect.html %}
                 </select>
             </li>
         </ul>
@@ -45,52 +39,14 @@
         <div id="global-top-categories-chart-div" class="col chart-div float-left">
             <label for="top-cat-locations" class="mb-2 mr-sm-2"><strong>Locations</strong></label>
             <select name="top-cat-locations" id="top-cat-locations" multiple class="mb-2 mr-sm-4">
-                <option value="amsterdam">Amsterdam</option>
-                <option value="barcelona">Barcelona</option>
-                <option value="berlin">Berlin</option>
-                <option value="boston">Boston</option>
-                <option value="chicago">Chicago</option>
-                <option value="lasvegas">Las Vegas</option>
-                <option value="london">London</option>
-                <option value="losangeles">Los Angeles</option>
-                <option value="madrid">Madrid</option>
-                <option value="miami">Miami</option>
-                <option value="milan">Milan</option>
-                <option value="newyork">New York</option>
-                <option value="paris">Paris</option>
-                <option value="rio">Rio de Janeiro</option>
-                <option value="rome">Rome</option>
-                <option value="sandiego">San Diego</option>
-                <option value="sanfrancisco">San Francisco</option>
-                <option value="sydney">Sydney</option>
-                <option value="toronto">Toronto</option>
-                <option value="vancouver">Vancouver</option>
+                {% include locselect.html %}
             </select>
             <canvas id="topCatChart"></canvas>
         </div>
         <div id="top-categories-chart-div" class="col chart-div float-right">
             <label for="top-cat-single-location" class="mb-2 mr-sm-2"><strong>Location</strong></label>
             <select name="top-cat-single-location" id="top-cat-single-location" class="mb-2 mr-sm-4">
-                <option value="amsterdam">Amsterdam</option>
-                <option value="barcelona">Barcelona</option>
-                <option value="berlin">Berlin</option>
-                <option value="boston">Boston</option>
-                <option value="chicago">Chicago</option>
-                <option value="lasvegas">Las Vegas</option>
-                <option value="london">London</option>
-                <option value="losangeles">Los Angeles</option>
-                <option value="madrid">Madrid</option>
-                <option value="miami">Miami</option>
-                <option value="milan">Milan</option>
-                <option value="newyork">New York</option>
-                <option value="paris">Paris</option>
-                <option value="rio">Rio de Janeiro</option>
-                <option value="rome">Rome</option>
-                <option value="sandiego">San Diego</option>
-                <option value="sanfrancisco">San Francisco</option>
-                <option value="sydney">Sydney</option>
-                <option value="toronto">Toronto</option>
-                <option value="vancouver">Vancouver</option>
+                {% include locselect.html %}
             </select>
         </div>
     </div>
