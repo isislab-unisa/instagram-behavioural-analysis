@@ -65,13 +65,9 @@ $("#top-cat-btn").click(() => {
         locations.push(singleLocation)
     const numCategories = $("#num-categories").val()
     const format = $("#top-cat-period").val()
-    let period
-    if (format === "week")
-        period = format
-    else if (format === "day")
-        period = $("#top-cat-days").val()
-
+    const period = format === "day" ? $("#prog-days").val() : "week"
     const lastLocationIndex = locations.length - 1
+
     const locationsDict = {}
     const categoriesDict = {}
     let i = 0
@@ -331,41 +327,37 @@ function createLocTopCategoriesChart(data, text) {
 
 let progChart
 
-function getProgFormValues() {
-    const optionsLocValues = $("#prog-locations").val()
-    const optionsCatValues = $("#prog-categories").val()
-    const format = $("#prog-period").val()
-    let period
-    if (format === "week")
-        period = format
-    else if (format === "day")
-        period = $("#prog-days").val()
-    return {
-        locations: optionsLocValues,
-        categories: optionsCatValues,
-        format: format,
-        period: period,
-    }
-}
-
 $("#prog-btn").click(() => {
     const locations = $("#prog-locations").val()
     const categories = $("#prog-categories").val()
     const format = $("#prog-period").val()
-    let period
-    if (format === "week")
-        period = format
-    else if (format === "day")
-        period = $("#prog-days").val()
+    const period = format === "day" ? $("#prog-days").val() : "week"
+    const pathPrefix = format === "day" ? "local-time-data/" : "data/"
 
-    let pathPrefix = "data/"
-    if (format === "day")
-        pathPrefix = "local-time-" + pathPrefix
-
+    const categoriesInfo = {}
     locations.forEach(location => {
+        categoriesInfo[location] = []
         const path = pathPrefix + location + "/analysis.json"
         categories.forEach(category => {
-            getLocationProgInfo(location, category, path, format, period)
+            getLocationProgInfo(location, category, path, format, period, checkins => {
+                const total = checkins.reduce((a, b) => a + b, 0)
+                categoriesInfo[location].push({ "category": category, checkins: checkins, "total": total })
+                if (categories.length === categoriesInfo[location].length) {
+                    const [r, g, b, a] = defaultColors[location]
+                    const length = categories.length
+                    categoriesInfo[location].sort((a, b) => b["total"] - a["total"])
+                    categoriesInfo[location].forEach(item => {
+                        const index = categoriesInfo[location].indexOf(item)
+                        const red = ((255 - r) * (index / length)) + r
+                        const green = ((255 - g) * (index / length)) + g
+                        const blue = ((255 - b) * (index / length)) + b
+                        const color = "rgba(" + red + "," + green + "," + blue + "," + a + ")"
+                        const checkins = item["checkins"]
+                        const label = location + " " + item["category"]
+                        addProgData(label, color, checkins)
+                    })
+                }
+            })
         })
     })
 })
@@ -375,30 +367,27 @@ $("#clear-btn").click(() => {
     progChart.update();
 })
 
-function getLocationProgInfo(location, category, path, format, period) {
+function getLocationProgInfo(location, category, path, format, period, f) {
     $.getJSON(path, (json) => {
-        const counts_dict = {}
+        const counts = {}
         $.each(json, (day) => {
             $.each(json[day], (hour) => {
                 const occurrences = json[day][hour][category] === undefined ? 0 : json[day][hour][category]
                 if (format === "day" && day == period)
-                    counts_dict[hour] = occurrences
+                    counts[hour] = occurrences
                 else if (format === "week") {
-                    if (day in counts_dict)
-                        counts_dict[day] += occurrences
+                    if (day in counts)
+                        counts[day] += occurrences
                     else {
-                        counts_dict[day] = occurrences
+                        counts[day] = occurrences
                     }
                 }
                 else
                     return true
             })
         })
-        const xs = Object.keys(counts_dict)
-        const ys = Object.values(counts_dict)
-        const label = location + " - " + category
-        const color = "rgba(" + defaultColors[location][0] + "," + defaultColors[location][1] + "," + defaultColors[location][2] + "," + defaultColors[location][3] + ")"
-        addProgData(label, color, ys)
+        const checkins = Object.values(counts)
+        f(checkins)
     })
 }
 
@@ -499,6 +488,8 @@ $("#prog-locations").change(() => {
     const select = $("#prog-categories")
     select.empty()
     const locations = $("#prog-locations").val()
+    const lastLocationIndex = locations.length - 1
+    let i = 0
     locations.forEach(location => {
         $.getJSON("data/" + location + "/analysis.json", (json) => {
             $.each(json, (day) => {
@@ -510,9 +501,11 @@ $("#prog-locations").change(() => {
                     })
                 })
             })
-            categories.sort((a, b) => a > b)
-            categories.forEach(category => select.append(new Option(category, category)))
-            $("#prog-categories").multiselect("rebuild")
+            if (i++ === lastLocationIndex) {
+                categories.sort((a, b) => a > b)
+                categories.forEach(category => select.append(new Option(category, category)))
+                $("#prog-categories").multiselect("rebuild")
+            }
         })
     })
 })
