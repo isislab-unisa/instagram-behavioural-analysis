@@ -2,8 +2,7 @@
     <h2>Top 20 categories</h2>
     <p>Select a number of categories, a period, day or week, and eventually a day. Then select one or more locations
         over the first chart to show the most popular categories in those locations during the week (or day), and select
-        one location over the second chart to show the most popular categories in that location during the week (or
-        day).
+        one location over the second chart to show the most popular categories in that location during the week (or day).
     </p>
 </div>
 <div class="container">
@@ -39,16 +38,16 @@
 
 <div class="container-fluid mb-5">
     <div class="row text-center">
-        <div id="global-top-categories-chart-div" class="col-md-6 chart-div">
+        <div id="global-top-categories-chart-div" class="col-sm-6 chart-div">
             <label for="top-cat-locations" class="mb-2 mr-sm-2"><strong>Locations</strong></label>
-            <select name="top-cat-locations" id="top-cat-locations" multiple class="mb-2 mr-sm-4">
+            <select name="top-cat-locations" id="top-cat-locations" multiple class="mb-3 mr-sm-2">
                 {% include locselect.html %}
             </select>
             <canvas id="topCatChart"></canvas>
         </div>
-        <div id="top-categories-chart-div" class="col-md-6 chart-div">
+        <div id="top-categories-chart-div" class="col-sm-6 chart-div">
             <label for="top-cat-single-location" class="mb-2 mr-sm-2"><strong>Location</strong></label>
-            <select name="top-cat-single-location" id="top-cat-single-location" class="mb-2 mr-sm-4">
+            <select name="top-cat-single-location" id="top-cat-single-location" class="mb-3 mr-sm-2">
                 {% include locselect.html %}
             </select>
         </div>
