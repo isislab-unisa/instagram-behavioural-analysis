@@ -35,17 +35,17 @@ $(document).ready(() => {
 function createMultiselects() {
     $('select[id=top-cat-locations], select[id=prog-locations]').multiselect({
         nonSelectedText: 'Select Locations',
-        buttonWidth: '200px',
+        buttonWidth: '185px',
         maxHeight: 250
     })
     $('#top-cat-single-location').multiselect({
-        buttonWidth: '200px',
+        buttonWidth: '185px',
         maxHeight: 250,
         multiple: false
     })
     $('#prog-categories').multiselect({
         nonSelectedText: 'Select Categories',
-        buttonWidth: '225px',
+        buttonWidth: '210px',
         maxHeight: 250
     });
     $('select[id=top-cat-period], select[id=prog-period]').multiselect({
