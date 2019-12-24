@@ -58,23 +58,17 @@ $("#top-cat-btn").click(() => {
     const period = format === "day" ? $("#prog-days").val() : "week"
     const lastLocationIndex = locations.length - 1
 
-    // Count for each selected location the checkins for every category
+    // Get for each selected location the checkins for every category
     const locationsDict = {}
     const categoriesDict = {}
     let i = 0
     locations.forEach(location => {
         const locationCategories = []
-        getLocationCategoriesInfo(location, format, period, counts => {
-            const [r, g, b, a] = defaultColors[location]
-            const length = counts.length
-            counts.forEach(count => {
-                const index = counts.indexOf(count)
-                const red = ((255 - r) * (index / length)) + r
-                const green = ((255 - g) * (index / length)) + g
-                const blue = ((255 - b) * (index / length)) + b
-                const color = "rgba(" + red + "," + green + "," + blue + "," + a + ")"
-                const category = count["category"]
-                const checkins = count["checkins"]
+        getLocationCategoriesInfo(location, format, period, infos => {
+            infos.forEach(info => {
+                const category = info["category"]
+                const checkins = info["checkins"]
+                const color = info["color"]
                 locationCategories.push({ "category": category, "checkins": checkins, "color": color })
             })
             // Count the overall checkins for each category in the selected locations
@@ -101,7 +95,7 @@ $("#top-cat-btn").click(() => {
     })
 })
 
-// Count for each category the number of checkins in a location
+// Retrive for each category the number of checkins in a location
 function getLocationCategoriesInfo(location, format, period, f) {
     const path = "data/" + location + "/analysis.json"
     $.getJSON(path, (json) => {
@@ -118,8 +112,24 @@ function getLocationCategoriesInfo(location, format, period, f) {
                 })
             })
         })
-        sortDict(counts, f)
+        // Sort the counts and map a color to each category
+        sortDict(counts, sorted => setColors(location, sorted, f))
     })
+}
+
+// Assign a chromatic scale to items according to the positions of its elements
+function setColors(location, items, f) {
+    const [r, g, b, a] = defaultColors[location]
+    const length = items.length
+    items.forEach(item => {
+        const index = items.indexOf(item)
+        const red = ((255 - r) * (index / length)) + r
+        const green = ((255 - g) * (index / length)) + g
+        const blue = ((255 - b) * (index / length)) + b
+        const color = "rgba(" + red + "," + green + "," + blue + "," + a + ")"
+        item["color"] = color
+    })
+    f(items)
 }
 
 // Show info about top categories in the selected locations
@@ -254,7 +264,7 @@ function createTopCategoriesChart() {
     });
 }
 
-// Create chart showing top categories in a location
+// Create chart showing top categories in a single location
 function createLocTopCategoriesChart(data, text) {
     const categories = data.map(item => item["category"])
     const checkins = data.map(item => item["checkins"])
@@ -328,7 +338,7 @@ function createLocTopCategoriesChart(data, text) {
 
 let progChart
 
-// Find for each selected category the number of checkins in the selected locations
+// Get for each selected category the number of checkins in the selected locations
 $("#prog-btn").click(() => {
     const locations = $("#prog-locations").val()
     const categories = $("#prog-categories").val()
@@ -345,18 +355,14 @@ $("#prog-btn").click(() => {
                 categoriesInfo[location].push({ "category": category, checkins: checkins, "total": total })
                 // When every category info has been retrieved add the datasets
                 if (categories.length === categoriesInfo[location].length) {
-                    const [r, g, b, a] = defaultColors[location]
-                    const length = categories.length
                     categoriesInfo[location].sort((a, b) => b["total"] - a["total"])
-                    categoriesInfo[location].forEach(item => {
-                        const index = categoriesInfo[location].indexOf(item)
-                        const red = ((255 - r) * (index / length)) + r
-                        const green = ((255 - g) * (index / length)) + g
-                        const blue = ((255 - b) * (index / length)) + b
-                        const color = "rgba(" + red + "," + green + "," + blue + "," + a + ")"
-                        const checkins = item["checkins"]
-                        const label = location + " " + item["category"]
-                        addProgData(label, color, checkins)
+                    setColors(location, categoriesInfo[location], items => {
+                        items.forEach(item => {
+                            const checkins = item["checkins"]
+                            const color = item["color"]
+                            const label = location + " " + item["category"]
+                            addProgData(label, color, checkins)
+                        })
                     })
                 }
             })
