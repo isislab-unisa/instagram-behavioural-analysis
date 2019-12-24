@@ -1,30 +1,8 @@
-// Map each city to a default color
-const defaultColors = {
-    "amsterdam": [220, 20, 60, 1], // crimson
-    "barcelona": [255, 127, 80, 1], // coral
-    "berlin": [255, 160, 122, 1], // light salmon
-    "boston": [255, 165, 0, 1], // orange
-    "chicago": [255, 215, 0, 1], // gold
-    "lasvegas": [189, 183, 107, 1], // dark khaki
-    "london": [143, 188, 143, 1], // dark sea green
-    "losangeles": [154, 205, 50, 1], // yellow green
-    "madrid": [46, 139, 87, 1], // sea green
-    "miami": [64, 224, 208, 1], // turquoise
-    "milan": [100, 149, 237, 1], // corn flower blue
-    "newyork": [25, 25, 112, 1], // midnight blue
-    "paris": [65, 105, 225, 1], // royal blue
-    "rio": [139, 0, 139, 1], // dark magenta
-    "rome": [221, 160, 221, 1], // plum
-    "sandiego": [255, 105, 180, 1], // hot pink
-    "sanfrancisco": [210, 105, 30, 1], // chocolate
-    "sydney": [112, 128, 144, 1], // slate grey
-    "toronto": [188, 143, 143, 1], // rosy brown
-    "sydney": [138, 43, 226, 1], // blue violet
-    "vancouver": [255, 0, 255, 1], // magenta fuchsia
-}
+const defaultColors = {}
 let topCatChart
 
 $(document).ready(() => {
+    mapCityColors()
     createMultiselects()
     createTopCategoriesChart()
     $("#top-cat-btn").trigger("click")
@@ -32,6 +10,15 @@ $(document).ready(() => {
     $("#prog-period").trigger("change")
     $("#top-cat-period").trigger("change")
 });
+
+// Map each city to a default color
+function mapCityColors() {
+    $.getJSON("colors.json", json => {
+        json.forEach(item => {
+            defaultColors[item["city"]] = item["rgba"]
+        })
+    })
+}
 
 // Create selects
 function createMultiselects() {

@@ -1,0 +1,202 @@
+[
+    {
+        "city": "amsterdam",
+        "color": "crimson",
+        "rgba": [
+            220,
+            20,
+            60,
+            1
+        ]
+    },
+    {
+        "city": "barcelona",
+        "color": "coral",
+        "rgba": [
+            255,
+            127,
+            80,
+            1
+        ]
+    },
+    {
+        "city": "berlin",
+        "color": "light salmon",
+        "rgba": [
+            255,
+            160,
+            122,
+            1
+        ]
+    },
+    {
+        "city": "boston",
+        "color": "orange",
+        "rgba": [
+            255,
+            165,
+            0,
+            1
+        ]
+    },
+    {
+        "city": "chicago",
+        "color": "gold",
+        "rgba": [
+            255,
+            215,
+            0,
+            1
+        ]
+    },
+    {
+        "city": "lasvegas",
+        "color": "dark khaki",
+        "rgba": [
+            189,
+            183,
+            107,
+            1
+        ]
+    },
+    {
+        "city": "london",
+        "color": "dark sea green",
+        "rgba": [
+            143,
+            188,
+            143,
+            1
+        ]
+    },
+    {
+        "city": "losangeles",
+        "color": "yellow green",
+        "rgba": [
+            154,
+            205,
+            50,
+            1
+        ]
+    },
+    {
+        "city": "madrid",
+        "color": "sea green",
+        "rgba": [
+            46,
+            139,
+            87,
+            1
+        ]
+    },
+    {
+        "city": "miami",
+        "color": "turquoise",
+        "rgba": [
+            64,
+            224,
+            208,
+            1
+        ]
+    },
+    {
+        "city": "milan",
+        "color": "turquoise",
+        "rgba": [
+            64,
+            224,
+            208,
+            1
+        ]
+    },
+    {
+        "city": "newyork",
+        "color": "midnight blue",
+        "rgba": [
+            25,
+            25,
+            112,
+            1
+        ]
+    },
+    {
+        "city": "paris",
+        "color": "royal blue",
+        "rgba": [
+            65,
+            105,
+            225,
+            1
+        ]
+    },
+    {
+        "city": "rio",
+        "color": "dark magenta",
+        "rgba": [
+            139,
+            0,
+            139,
+            1
+        ]
+    },
+    {
+        "city": "rome",
+        "color": "plum",
+        "rgba": [
+            221,
+            160,
+            221,
+            1
+        ]
+    },
+    {
+        "city": "sandiego",
+        "color": "hot pink",
+        "rgba": [
+            255,
+            105,
+            180,
+            1
+        ]
+    },
+    {
+        "city": "sanfrancisco",
+        "color": "chocolate",
+        "rgba": [
+            210,
+            105,
+            30,
+            1
+        ]
+    },
+    {
+        "city": "sydney",
+        "color": "slate grey",
+        "rgba": [
+            112,
+            128,
+            144,
+            1
+        ]
+    },
+    {
+        "city": "toronto",
+        "color": "rosy brown",
+        "rgba": [
+            188,
+            143,
+            143,
+            1
+        ]
+    },
+    {
+        "city": "vancouver",
+        "color": "magenta fuchsia",
+        "rgba": [
+            255,
+            0,
+            255,
+            1
+        ]
+    }
+]
