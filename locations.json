@@ -1,0 +1,102 @@
+[
+    {
+        "id": "213385402",
+        "filename": "london_stories.csv",
+        "name": "London, United Kingdom"
+    },
+    {
+        "id": "212988663",
+        "filename": "newyork_stories.csv",
+        "name": "New York, New York"
+    },
+    {
+        "id": "6889842",
+        "filename": "paris_stories.csv",
+        "name": "Paris, France"
+    },
+    {
+        "id": "212941492",
+        "filename": "miami_stories.csv",
+        "name": "Miami, Florida"
+    },
+    {
+        "id": "213100244",
+        "filename": "barcelona_stories.csv",
+        "name": "Barcelona, Spain"
+    },
+    {
+        "id": "212999109",
+        "filename": "losangeles_stories.csv",
+        "name": "Los Angeles, California"
+    },
+    {
+        "id": "204517928",
+        "filename": "chicago_stories.csv",
+        "name": "Chicago, Illinois"
+    },
+    {
+        "id": "212991559",
+        "filename": "toronto_stories.csv",
+        "name": "Toronto, Ontario"
+    },
+    {
+        "id": "213131048",
+        "filename": "berlin_stories.csv",
+        "name": "Berlin, Germany"
+    },
+    {
+        "id": "212901056",
+        "filename": "lasvegas_stories.csv",
+        "name": "Las Vegas, Nevada"
+    },
+    {
+        "id": "127963847",
+        "filename": "madrid_stories.csv",
+        "name": "Madrid, Spain"
+    },
+    {
+        "id": "116231",
+        "filename": "amsterdam_stories.csv",
+        "name": "Amsterdam, Netherlands"
+    },
+    {
+        "id": "213011753",
+        "filename": "sydney_stories.csv",
+        "name": "Sydney, Australia"
+    },
+    {
+        "id": "44961364",
+        "filename": "sanfrancisco_stories.csv",
+        "name": "San Francisco, California"
+    },
+    {
+        "id": "212983635",
+        "filename": "sandiego_stories.csv",
+        "name": "San Diego, California"
+    },
+    {
+        "id": "206698624",
+        "filename": "boston_stories.csv",
+        "name": "Boston, Massachussetts"
+    },
+    {
+        "id": "31499759",
+        "filename": "rome_stories.csv",
+        "name": "Rome, Italy"
+    },
+    {
+        "id": "213088533",
+        "filename": "rio_stories.csv",
+        "name": "Rio de Janeiro, Rio de Janeiro"
+    },
+    {
+        "id": "213819997",
+        "filename": "vancouver_stories.csv",
+        "name": "Vancouver, British Columbia"
+    },
+    {
+        "id": "213050058",
+        "filename": "milan_stories.csv",
+        "name": "Milan, Italy"
+    }
+]
