@@ -1,3 +1,4 @@
+// Map each city to a default color
 const defaultColors = {
     "amsterdam": [220, 20, 60, 1], // crimson
     "barcelona": [255, 127, 80, 1], // coral
@@ -32,6 +33,7 @@ $(document).ready(() => {
     $("#top-cat-period").trigger("change")
 });
 
+// Create selects
 function createMultiselects() {
     $('select[id=top-cat-locations], select[id=prog-locations]').multiselect({
         nonSelectedText: 'Select Locations',
@@ -57,6 +59,7 @@ function createMultiselects() {
     })
 }
 
+// Get info about top categories
 $("#top-cat-btn").click(() => {
     const locations = $("#top-cat-locations").val()
     const singleLocation = $("#top-cat-single-location").val()
@@ -68,13 +71,13 @@ $("#top-cat-btn").click(() => {
     const period = format === "day" ? $("#prog-days").val() : "week"
     const lastLocationIndex = locations.length - 1
 
+    // Count for each selected location the checkins for every category
     const locationsDict = {}
     const categoriesDict = {}
     let i = 0
     locations.forEach(location => {
-        const path = "data/" + location + "/analysis.json"
         const locationCategories = []
-        getLocationCategoriesInfo(location, path, format, period, counts => {
+        getLocationCategoriesInfo(location, format, period, counts => {
             const [r, g, b, a] = defaultColors[location]
             const length = counts.length
             counts.forEach(count => {
@@ -87,6 +90,7 @@ $("#top-cat-btn").click(() => {
                 const checkins = count["checkins"]
                 locationCategories.push({ "category": category, "checkins": checkins, "color": color })
             })
+            // Count the overall checkins for each category in the selected locations
             if ($("#top-cat-locations").val().includes(location)) {
                 locationsDict[location] = locationCategories
                 locationsDict[location].forEach(item => {
@@ -96,10 +100,12 @@ $("#top-cat-btn").click(() => {
                         categoriesDict[[item["category"]]] = item["checkins"]
                 })
             }
+            // Create the single location top categories chart
             if (location === singleLocation) {
                 const text = locationName + " " + period + " top " + numCategories + " categories"
                 createLocTopCategoriesChart(locationCategories.slice(0, numCategories), text)
             }
+            // Update the top categories chart when every location info has been retrieved
             if (i++ === lastLocationIndex) {
                 sortDict(categoriesDict, sortedCategories => updateTopCategoriesChart(
                     sortedCategories.slice(0, numCategories), locationsDict, period))
@@ -108,7 +114,9 @@ $("#top-cat-btn").click(() => {
     })
 })
 
-function getLocationCategoriesInfo(location, path, format, period, f) {
+// Count for each category the number of checkins in a location
+function getLocationCategoriesInfo(location, format, period, f) {
+    const path = "data/" + location + "/analysis.json"
     $.getJSON(path, (json) => {
         const counts = {}
         $.each(json, (day) => {
@@ -127,11 +135,13 @@ function getLocationCategoriesInfo(location, path, format, period, f) {
     })
 }
 
+// Show info about top categories in the selected locations
 function updateTopCategoriesChart(categories, locationsDict, period) {
     const names = categories.map(item => item["category"])
     const locationsTopCategories = {}
     topCatChart.data.datasets = []
     topCatChart.data.labels = names
+    // Get the top categories checkins in each location
     $.each(locationsDict, location => {
         locationsTopCategories[location] = []
         names.forEach(name => {
@@ -143,6 +153,7 @@ function updateTopCategoriesChart(categories, locationsDict, period) {
             })
         })
     })
+    // Create datasets and update the chart
     $.each(locationsTopCategories, location => {
         const newDataset = {
             label: location,
@@ -155,6 +166,7 @@ function updateTopCategoriesChart(categories, locationsDict, period) {
     topCatChart.update()
 }
 
+// Sort a dictionary according to values
 function sortDict(dict, f) {
     const items = Object.keys(dict).map((key) => [key, dict[key]])
     const sortedItems = items.sort((first, second) => second[1] - first[1])
@@ -190,6 +202,7 @@ function resetTopCategoriesData() {
     topCatChart.update();
 }
 
+// Create chart showing top categories of selected locations
 function createTopCategoriesChart() {
     const canvas = document.querySelector("#topCatChart").getContext("2d");
     const chartOptions = {
@@ -254,6 +267,7 @@ function createTopCategoriesChart() {
     });
 }
 
+// Create chart showing top categories in a location
 function createLocTopCategoriesChart(data, text) {
     const categories = data.map(item => item["category"])
     const checkins = data.map(item => item["checkins"])
@@ -327,21 +341,22 @@ function createLocTopCategoriesChart(data, text) {
 
 let progChart
 
+// Find for each selected category the number of checkins in the selected locations
 $("#prog-btn").click(() => {
     const locations = $("#prog-locations").val()
     const categories = $("#prog-categories").val()
     const format = $("#prog-period").val()
     const period = format === "day" ? $("#prog-days").val() : "week"
-    const pathPrefix = format === "day" ? "local-time-data/" : "data/"
 
+    // Count for each selected location the checkins for every selected category
     const categoriesInfo = {}
     locations.forEach(location => {
         categoriesInfo[location] = []
-        const path = pathPrefix + location + "/analysis.json"
         categories.forEach(category => {
-            getLocationProgInfo(location, category, path, format, period, checkins => {
+            getLocationProgInfo(location, category, format, period, checkins => {
                 const total = checkins.reduce((a, b) => a + b, 0)
                 categoriesInfo[location].push({ "category": category, checkins: checkins, "total": total })
+                // When every category info has been retrieved add the datasets
                 if (categories.length === categoriesInfo[location].length) {
                     const [r, g, b, a] = defaultColors[location]
                     const length = categories.length
@@ -367,7 +382,10 @@ $("#clear-btn").click(() => {
     progChart.update();
 })
 
-function getLocationProgInfo(location, category, path, format, period, f) {
+// Find the number of a category checkins in a location
+function getLocationProgInfo(location, category, format, period, f) {
+    const pathPrefix = format === "day" ? "local-time-data/" : "data/"
+    const path = pathPrefix + location + "/analysis.json"
     $.getJSON(path, (json) => {
         const counts = {}
         $.each(json, (day) => {
@@ -391,6 +409,7 @@ function getLocationProgInfo(location, category, path, format, period, f) {
     })
 }
 
+// Add dataset to progress chart
 function addProgData(label, color, data) {
     const newDataset = {
         label: label,
@@ -402,6 +421,7 @@ function addProgData(label, color, data) {
     progChart.update();
 }
 
+// Create progress chart
 function createProgressChart(labels, text) {
     $("#progChart").remove()
     $("#prog-chart-div").append("<canvas id='progChart'>")
@@ -483,6 +503,7 @@ $("#prog-period").change(() => {
     createProgressChart(labels, text)
 })
 
+// Show categories present in the selected locations
 $("#prog-locations").change(() => {
     const categories = []
     const select = $("#prog-categories")
