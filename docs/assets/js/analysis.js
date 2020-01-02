@@ -483,7 +483,7 @@ $("#prog-period").change(() => {
     const select = $("#prog-days")
     if (format === "day") {
         text = "Checkins by hour"
-        labels = Array(24).fill().map((_, i) => i)
+        labels = Array(24).fill().map((_, i) => i < 9 ? "0"+i+":00" : i+":00")
         label.removeClass("d-none")
         select.next().show()
     }
