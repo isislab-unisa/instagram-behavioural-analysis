@@ -1,9 +1,6 @@
 # Instagram-Behavioural-Analysis
 
-Instagram-Behavioural-Analysis is a Python module realized for getting info about Instagram data, relying on instagram_private_api, and analyzing them, using Here tools.  
-This project uses GitHub Pages and you can know more about it [here](https://isislab-unisa.github.io/instagram-behavioural-analysis/).
-
-<br>
+Instagram-Behavioural-Analysis is a Python module realized for getting info about Instagram data, relying on instagram_private_api, and analyzing them, using Here tools.
 
 ## Requirements
 
