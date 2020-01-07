@@ -3,8 +3,8 @@
     <p>Select one or more locations, a format, day or week, one or more categories (and eventually a day) to show the
         number of stories for those categories realized during the week (or day) in those locations.</p>
 </div>
-<div class="container-fluid">
-    <div class="row text-center">
+<div class="container-fluid text-center">
+    <div class="row">
         <ul id="prog-list" class="list-group list-group-horizontal list-unstyled mt-5 mb-3 mx-auto">
             <li class="group-list-item">
                 <label for="prog-locations" class="mb-2 mr-sm-2"><strong>Locations</strong></label>
@@ -16,6 +16,17 @@
                 <label for="prog-categories" class="mr-sm-2"><strong>Categories</strong></label>
                 <select name="prog-categories" id="prog-categories" multiple class="mb-2 mr-sm-2"></select>
             </li>
+            <li class="group-list-item">
+                <label for="prog-values" class="mb-2 mr-sm-2"><strong>Values</strong></label>
+                <select name="prog-values" id="prog-values" class="mb-2 mr-sm-2">
+                    <option value="absolute">Absolute</option>
+                    <option value="normalized">Normalized</option>
+                </select>
+            </li>
+        </ul>
+    </div>
+    <div class="row">
+        <ul id="prog-period-list" class="list-group list-group-horizontal list-unstyled mt-3 mb-3 mx-auto">
             <li class="group-list-item">
                 <label for="prog-period" class="mr-sm-2"><strong>Period</strong></label>
                 <select name="prog-period" id="prog-period" class="mb-2 mr-sm-2">

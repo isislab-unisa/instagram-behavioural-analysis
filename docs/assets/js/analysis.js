@@ -40,7 +40,7 @@ function createMultiselects() {
     $('select[id=top-cat-period], select[id=prog-period]').multiselect({
         multiple: false
     })
-    $('select[id=top-cat-days], select[id=prog-days]').multiselect({
+    $('select[id=top-cat-days], select[id=prog-days], select[id=prog-values]').multiselect({
         multiple: false,
         buttonWidth: '170px',
     })
@@ -481,7 +481,7 @@ function createProgressChart(labels, text) {
 $("#prog-period").change(() => {
     let labels, text
     const format = $("#prog-period").val()
-    const label = $("#prog-list label[for=prog-days]")
+    const label = $("#prog-period-list label[for=prog-days]")
     const select = $("#prog-days")
     if (format === "day") {
         text = "Checkins by hour"
