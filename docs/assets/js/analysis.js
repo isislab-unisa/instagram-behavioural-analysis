@@ -25,7 +25,8 @@ function createMultiselects() {
     $('select[id=top-cat-locations], select[id=prog-locations]').multiselect({
         nonSelectedText: 'Select Locations',
         buttonWidth: '185px',
-        maxHeight: 250
+        maxHeight: 250,
+        includeSelectAllOption: true
     })
     $('#top-cat-single-location').multiselect({
         buttonWidth: '185px',
