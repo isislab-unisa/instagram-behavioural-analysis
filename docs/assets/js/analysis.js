@@ -174,6 +174,8 @@ function sortDict(dict, f) {
     f(sortedDicts)
 }
 
+$("#top-cat-single-location").change(() => $("#top-cat-btn").trigger("click"))
+
 $("#top-cat-period").change(() => {
     const format = $("#top-cat-period").val()
     const label = $("#top-cat-list label[for=top-cat-days]")
