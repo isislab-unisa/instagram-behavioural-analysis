@@ -1,6 +1,7 @@
 [
     {
         "city": "amsterdam",
+        "stories": 36975,
         "color": "crimson",
         "rgba": [
             220,
@@ -11,6 +12,7 @@
     },
     {
         "city": "barcelona",
+        "stories": 40968,
         "color": "coral",
         "rgba": [
             255,
@@ -21,6 +23,7 @@
     },
     {
         "city": "berlin",
+        "stories": 40832,
         "color": "light salmon",
         "rgba": [
             255,
@@ -31,6 +34,7 @@
     },
     {
         "city": "boston",
+        "stories": 13125,
         "color": "orange",
         "rgba": [
             255,
@@ -41,6 +45,7 @@
     },
     {
         "city": "chicago",
+        "stories": 34405,
         "color": "gold",
         "rgba": [
             255,
@@ -51,6 +56,7 @@
     },
     {
         "city": "lasvegas",
+        "stories": 25654,
         "color": "dark khaki",
         "rgba": [
             189,
@@ -61,6 +67,7 @@
     },
     {
         "city": "london",
+        "stories": 90680,
         "color": "dark sea green",
         "rgba": [
             143,
@@ -71,6 +78,7 @@
     },
     {
         "city": "losangeles",
+        "stories": 43804,
         "color": "yellow green",
         "rgba": [
             154,
@@ -81,6 +89,7 @@
     },
     {
         "city": "madrid",
+        "stories": 44637,
         "color": "sea green",
         "rgba": [
             46,
@@ -91,6 +100,7 @@
     },
     {
         "city": "miami",
+        "stories": 30117,
         "color": "turquoise",
         "rgba": [
             64,
@@ -101,6 +111,7 @@
     },
     {
         "city": "milan",
+        "stories": 70329,
         "color": "turquoise",
         "rgba": [
             64,
@@ -111,6 +122,7 @@
     },
     {
         "city": "newyork",
+        "stories": 74987,
         "color": "midnight blue",
         "rgba": [
             25,
@@ -121,6 +133,7 @@
     },
     {
         "city": "paris",
+        "stories": 80702,
         "color": "royal blue",
         "rgba": [
             65,
@@ -131,6 +144,7 @@
     },
     {
         "city": "rio",
+        "stories": 82296,
         "color": "dark magenta",
         "rgba": [
             139,
@@ -141,6 +155,7 @@
     },
     {
         "city": "rome",
+        "stories": 72199,
         "color": "plum",
         "rgba": [
             221,
@@ -151,6 +166,7 @@
     },
     {
         "city": "sandiego",
+        "stories": 26467,
         "color": "hot pink",
         "rgba": [
             255,
@@ -161,6 +177,7 @@
     },
     {
         "city": "sanfrancisco",
+        "stories": 20263,
         "color": "chocolate",
         "rgba": [
             210,
@@ -171,6 +188,7 @@
     },
     {
         "city": "sydney",
+        "stories": 15511,
         "color": "slate grey",
         "rgba": [
             112,
@@ -181,6 +199,7 @@
     },
     {
         "city": "toronto",
+        "stories": 31517,
         "color": "rosy brown",
         "rgba": [
             188,
@@ -191,6 +210,7 @@
     },
     {
         "city": "vancouver",
+        "stories": 9229,
         "color": "magenta fuchsia",
         "rgba": [
             255,

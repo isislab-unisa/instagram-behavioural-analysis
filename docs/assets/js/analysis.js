@@ -13,7 +13,7 @@ $(document).ready(() => {
 
 // Map each city to a default color
 function mapCityColors() {
-    $.getJSON("colors.json", json => {
+    $.getJSON("cities.json", json => {
         json.forEach(item => {
             defaultColors[item["city"]] = item["rgba"]
         })
@@ -346,6 +346,7 @@ $("#prog-btn").click(() => {
     const categories = $("#prog-categories").val()
     const format = $("#prog-period").val()
     const period = format === "day" ? $("#prog-days").val() : "week"
+    const normalized = $("#prog-values").val() === "normalized"
 
     // Count for each selected location the checkins for every selected category
     const categoriesInfo = {}
@@ -363,7 +364,15 @@ $("#prog-btn").click(() => {
                             const checkins = item["checkins"]
                             const color = item["color"]
                             const label = location + " " + item["category"]
-                            addProgData(label, color, checkins)
+                            if (normalized)
+                                $.getJSON("cities.json", json => {
+                                    const total = json.filter(item => item["city"] === location).map(item => item["stories"])
+                                    const normalized = checkins.map(n => (n/total).toFixed(5))
+                                    console.log(normalized)
+                                    addProgData(label, color, normalized)
+                                })
+                            else
+                                addProgData(label, color, checkins)
                         })
                     })
                 }
