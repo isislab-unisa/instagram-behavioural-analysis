@@ -55,10 +55,6 @@ class Analyzer:
         data = pd.read_csv(datafile, delimiter='|')
         filtered = data[data['timestamp'].apply(
             lambda t:t >= start and t <= end)]
-        filtered = filtered[filtered['timestamp'].notnull()].copy()
-        filtered['day'] = filtered['timestamp'].apply(lambda t: self.getDay(t))
-        filtered['hour'] = filtered['timestamp'].apply(
-            lambda t: datetime.fromtimestamp(t).hour)
         filtered.to_csv(datafile, sep='|', index=False)
 
     def filterByLocation(self, datafile: str, uninteresting_locations: list):
@@ -71,6 +67,18 @@ class Analyzer:
         filtered = data[data['location_name'].apply(
             lambda l:l not in uninteresting_locations)]
         filtered.to_csv(datafile, sep='|', index=False)
+
+    def setHourNDay(self, datafile: str):
+        """Set day and hour
+
+        :param datafile: stories file
+        """
+        data = pd.read_csv(datafile, delimiter='|')
+        data = data[data['timestamp'].notnull()].copy()
+        data['day'] = data['timestamp'].apply(lambda t: self.getDay(t))
+        data['hour'] = data['timestamp'].apply(
+            lambda t: datetime.fromtimestamp(t).hour)
+        data.to_csv(datafile, sep='|', index=False)
 
     def setLocalTime(self, datafile: str, diff: int):
         """Change stories' timestamps in agreement with location local time
