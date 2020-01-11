@@ -2,101 +2,121 @@
     {
         "id": "213385402",
         "filename": "london_stories.csv",
-        "name": "London, United Kingdom"
+        "name": "London, United Kingdom",
+        "zone": "Europe/London"
     },
     {
         "id": "212988663",
         "filename": "newyork_stories.csv",
-        "name": "New York, New York"
+        "name": "New York, New York",
+        "zone": "America/New_York"
     },
     {
         "id": "6889842",
         "filename": "paris_stories.csv",
-        "name": "Paris, France"
+        "name": "Paris, France",
+        "zone": "Europe/Paris"
     },
     {
         "id": "212941492",
         "filename": "miami_stories.csv",
-        "name": "Miami, Florida"
+        "name": "Miami, Florida",
+        "zone": "America/Thunder_Bay"
     },
     {
         "id": "213100244",
         "filename": "barcelona_stories.csv",
-        "name": "Barcelona, Spain"
+        "name": "Barcelona, Spain",
+        "zone": "Europe/Madrid"
     },
     {
         "id": "212999109",
         "filename": "losangeles_stories.csv",
-        "name": "Los Angeles, California"
+        "name": "Los Angeles, California",
+        "zone": "America/Los_Angeles"
     },
     {
         "id": "204517928",
         "filename": "chicago_stories.csv",
-        "name": "Chicago, Illinois"
+        "name": "Chicago, Illinois",
+        "zone": "America/Chicago"
     },
     {
         "id": "212991559",
         "filename": "toronto_stories.csv",
-        "name": "Toronto, Ontario"
+        "name": "Toronto, Ontario",
+        "zone": "America/Toronto"
     },
     {
         "id": "213131048",
         "filename": "berlin_stories.csv",
-        "name": "Berlin, Germany"
+        "name": "Berlin, Germany",
+        "zone": "Europe/Berlin"
     },
     {
         "id": "212901056",
         "filename": "lasvegas_stories.csv",
-        "name": "Las Vegas, Nevada"
+        "name": "Las Vegas, Nevada",
+        "zone": "US/Pacific"
     },
     {
         "id": "127963847",
         "filename": "madrid_stories.csv",
-        "name": "Madrid, Spain"
+        "name": "Madrid, Spain",
+        "zone": "Europe/Madrid"
     },
     {
         "id": "116231",
         "filename": "amsterdam_stories.csv",
-        "name": "Amsterdam, Netherlands"
+        "name": "Amsterdam, Netherlands",
+        "zone": "Europe/Amsterdam"
     },
     {
         "id": "213011753",
         "filename": "sydney_stories.csv",
-        "name": "Sydney, Australia"
+        "name": "Sydney, Australia",
+        "zone": "Australia/Sydney"
     },
     {
         "id": "44961364",
         "filename": "sanfrancisco_stories.csv",
-        "name": "San Francisco, California"
+        "name": "San Francisco, California",
+        "zone": "US/Pacific"
     },
     {
         "id": "212983635",
         "filename": "sandiego_stories.csv",
-        "name": "San Diego, California"
+        "name": "San Diego, California",
+        "zone": "US/Pacific"
     },
     {
         "id": "206698624",
         "filename": "boston_stories.csv",
-        "name": "Boston, Massachussetts"
+        "name": "Boston, Massachussetts",
+        "zone": "US/Eastern"
     },
     {
         "id": "31499759",
         "filename": "rome_stories.csv",
-        "name": "Rome, Italy"
+        "name": "Rome, Italy",
+        "zone": "Europe/Rome"
     },
     {
         "id": "213088533",
         "filename": "rio_stories.csv",
-        "name": "Rio de Janeiro, Rio de Janeiro"
+        "name": "Rio de Janeiro, Rio de Janeiro",
+        "zone": "America/Sao_Paulo"
     },
     {
         "id": "213819997",
         "filename": "vancouver_stories.csv",
-        "name": "Vancouver, British Columbia"
+        "name": "Vancouver, British Columbia",
+        "zone": "America/Vancouver"
     },
     {
         "id": "213050058",
         "filename": "milan_stories.csv",
-        "name": "Milan, Italy"
+        "name": "Milan, Italy",
+        "zone": "Europe/Rome"
     }
 ]

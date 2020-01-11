@@ -1,8 +1,7 @@
 import pandas as pd
-import sys
-import csv
 import json
 from datetime import datetime
+import pytz
 
 
 class Analyzer:
@@ -18,13 +17,12 @@ class Analyzer:
         self.ids_dict = {}
         self.new_id = 1
 
-    def getDay(self, timestamp: int):
+    def getDay(self, date: datetime):
         """Returns a timestamp's day of the week
 
         :param timestamp: a timestamp
         :return: timestamp's day of the week
         """
-        date = datetime.fromtimestamp(timestamp)
         return {
             0: 'Monday',
             1: 'Tuesday',
@@ -68,27 +66,18 @@ class Analyzer:
             lambda l:l not in uninteresting_locations)]
         filtered.to_csv(datafile, sep='|', index=False)
 
-    def setHourNDay(self, datafile: str):
+    def setDayNHour(self, datafile: str, zone='Greenwich'):
         """Set day and hour
 
         :param datafile: stories file
         """
+        tz_GMT = pytz.timezone(zone)
         data = pd.read_csv(datafile, delimiter='|')
         data = data[data['timestamp'].notnull()].copy()
-        data['day'] = data['timestamp'].apply(lambda t: self.getDay(t))
+        data['day'] = data['timestamp'].apply(
+            lambda t: self.getDay(datetime.fromtimestamp(t, tz_GMT)))
         data['hour'] = data['timestamp'].apply(
-            lambda t: datetime.fromtimestamp(t).hour)
-        data.to_csv(datafile, sep='|', index=False)
-
-    def setLocalTime(self, datafile: str, diff: int):
-        """Change stories' timestamps in agreement with location local time
-
-        :param diff: difference between UTC and timezone
-        """
-        data = pd.read_csv(datafile, delimiter='|')
-        data = data[data['timestamp'].notnull()].copy()
-        data['timestamp'] = data['timestamp'].apply(
-            lambda t: int(t + diff*3600))
+            lambda t: datetime.fromtimestamp(t, tz_GMT).hour)
         data.to_csv(datafile, sep='|', index=False)
 
     def anonymize(self, datafile: str):
