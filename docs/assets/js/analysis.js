@@ -5,7 +5,7 @@ $(document).ready(() => {
     mapCityColors()
     createMultiselects()
     createTopCategoriesChart()
-    $("#top-cat-btn").trigger("click")
+    $("#top-cat-single-location").trigger("change")
     $("#prog-locations").trigger("change")
     $("#prog-period").trigger("change")
     $("#top-cat-period").trigger("change")
@@ -47,13 +47,9 @@ function createMultiselects() {
     })
 }
 
-// Get info about top categories
-$("#top-cat-btn").click(() => {
+// Get info about locations top categories
+$("#top-cat-locations").change(() => {
     const locations = $("#top-cat-locations").val()
-    const singleLocation = $("#top-cat-single-location").val()
-    const locationName = $("#top-cat-single-location option:selected").text()
-    if (!(locations.includes(singleLocation)))
-        locations.push(singleLocation)
     const numCategories = $("#num-categories").val()
     const format = $("#top-cat-period").val()
     const period = format === "day" ? $("#prog-days").val() : "week"
@@ -73,20 +69,13 @@ $("#top-cat-btn").click(() => {
                 locationCategories.push({ "category": category, "checkins": checkins, "color": color })
             })
             // Count the overall checkins for each category in the selected locations
-            if ($("#top-cat-locations").val().includes(location)) {
-                locationsDict[location] = locationCategories
-                locationsDict[location].forEach(item => {
-                    if ([item["category"]] in categoriesDict)
-                        categoriesDict[[item["category"]]] += item["checkins"]
-                    else
-                        categoriesDict[[item["category"]]] = item["checkins"]
-                })
-            }
-            // Create the single location top categories chart
-            if (location === singleLocation) {
-                const text = locationName + " " + period + " top " + numCategories + " categories"
-                createLocTopCategoriesChart(locationCategories.slice(0, numCategories), text)
-            }
+            locationsDict[location] = locationCategories
+            locationsDict[location].forEach(item => {
+                if ([item["category"]] in categoriesDict)
+                    categoriesDict[[item["category"]]] += item["checkins"]
+                else
+                    categoriesDict[[item["category"]]] = item["checkins"]
+            })
             // Update the top categories chart when every location info has been retrieved
             if (i++ === lastLocationIndex) {
                 sortDict(categoriesDict, sortedCategories => updateTopCategoriesChart(
@@ -96,7 +85,7 @@ $("#top-cat-btn").click(() => {
     })
 })
 
-// Retrive for each category the number of checkins in a location
+// Retrieve for each category the number of checkins in a location
 function getLocationCategoriesInfo(location, format, period, f) {
     const path = "data/" + location + "/analysis.json"
     $.getJSON(path, (json) => {
@@ -175,7 +164,29 @@ function sortDict(dict, f) {
     f(sortedDicts)
 }
 
-$("#top-cat-single-location").change(() => $("#top-cat-btn").trigger("click"))
+// Get info about single location top categories
+$("#top-cat-single-location").change(() => {
+    const location = $("#top-cat-single-location").val()
+    const locationName = $("#top-cat-single-location option:selected").text()
+    const numCategories = $("#num-categories").val()
+    const format = $("#top-cat-period").val()
+    const period = format === "day" ? $("#prog-days").val() : "week"
+
+    // Get for each selected location the checkins for every category
+    const locationCategories = []
+    getLocationCategoriesInfo(location, format, period, infos => {
+        infos.forEach(info => {
+            const category = info["category"]
+            const checkins = info["checkins"]
+            const color = info["color"]
+            locationCategories.push({ "category": category, "checkins": checkins, "color": color })
+        })
+        // Create the single location top categories chart
+        const text = locationName + " " + period + " top " + numCategories + " categories"
+        createLocTopCategoriesChart(locationCategories.slice(0, numCategories), text)
+    })
+})
+
 
 $("#top-cat-period").change(() => {
     const format = $("#top-cat-period").val()
@@ -368,7 +379,7 @@ $("#prog-btn").click(() => {
                             if (normalized)
                                 $.getJSON("cities.json", json => {
                                     const total = json.filter(item => item["city"] === location).map(item => item["stories"])
-                                    const normalized = checkins.map(n => (n/total).toFixed(5))
+                                    const normalized = checkins.map(n => (n / total).toFixed(5))
                                     console.log(normalized)
                                     addProgData(label, color, normalized)
                                 })
@@ -495,7 +506,7 @@ $("#prog-period").change(() => {
     const select = $("#prog-days")
     if (format === "day") {
         text = "Checkins by hour"
-        labels = Array(24).fill().map((_, i) => i < 9 ? "0"+i+":00" : i+":00")
+        labels = Array(24).fill().map((_, i) => i < 9 ? "0" + i + ":00" : i + ":00")
         label.removeClass("d-none")
         select.next().show()
     }
