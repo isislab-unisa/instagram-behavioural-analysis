@@ -52,7 +52,7 @@ $("#top-cat-locations").change(() => {
     const locations = $("#top-cat-locations").val()
     const numCategories = $("#num-categories").val()
     const format = $("#top-cat-period").val()
-    const period = format === "day" ? $("#prog-days").val() : "week"
+    const period = format === "day" ? $("#top-cat-days").val() : "week"
     const lastLocationIndex = locations.length - 1
 
     // Get for each selected location the checkins for every category
@@ -88,6 +88,7 @@ $("#top-cat-locations").change(() => {
 // Retrieve for each category the number of checkins in a location
 function getLocationCategoriesInfo(location, format, period, f) {
     const path = "data/" + location + "/analysis.json"
+    console.log(period)
     $.getJSON(path, (json) => {
         const counts = {}
         $.each(json, (day) => {
@@ -170,7 +171,8 @@ $("#top-cat-single-location").change(() => {
     const locationName = $("#top-cat-single-location option:selected").text()
     const numCategories = $("#num-categories").val()
     const format = $("#top-cat-period").val()
-    const period = format === "day" ? $("#prog-days").val() : "week"
+    const period = format === "day" ? $("#top-cat-days").val() : "week"
+    console.log(period)
 
     // Get for each selected location the checkins for every category
     const locationCategories = []
@@ -187,7 +189,6 @@ $("#top-cat-single-location").change(() => {
     })
 })
 
-
 $("#top-cat-period").change(() => {
     const format = $("#top-cat-period").val()
     const label = $("#top-cat-list label[for=top-cat-days]")
@@ -201,10 +202,19 @@ $("#top-cat-period").change(() => {
         select.next().show()
     }
     resetTopCategoriesData()
+    $("#top-cat-locations").trigger("change")
+    $("#top-cat-single-location").trigger("change")
+})
+
+$("#num-categories").change(() => {
+    $("#top-cat-locations").trigger("change")
+    $("#top-cat-single-location").trigger("change")
 })
 
 $("#top-cat-days").change(() => {
     resetTopCategoriesData()
+    $("#top-cat-locations").trigger("change")
+    $("#top-cat-single-location").trigger("change")
 })
 
 function resetTopCategoriesData() {
