@@ -88,7 +88,6 @@ $("#top-cat-locations").change(() => {
 // Retrieve for each category the number of checkins in a location
 function getLocationCategoriesInfo(location, format, period, f) {
     const path = "data/" + location + "/analysis.json"
-    console.log(period)
     $.getJSON(path, (json) => {
         const counts = {}
         $.each(json, (day) => {
@@ -172,7 +171,6 @@ $("#top-cat-single-location").change(() => {
     const numCategories = $("#num-categories").val()
     const format = $("#top-cat-period").val()
     const period = format === "day" ? $("#top-cat-days").val() : "week"
-    console.log(period)
 
     // Get for each selected location the checkins for every category
     const locationCategories = []
@@ -390,7 +388,6 @@ $("#prog-btn").click(() => {
                                 $.getJSON("cities.json", json => {
                                     const total = json.filter(item => item["city"] === location).map(item => item["stories"])
                                     const normalized = checkins.map(n => (n / total).toFixed(5))
-                                    console.log(normalized)
                                     addProgData(label, color, normalized)
                                 })
                             else
