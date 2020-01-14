@@ -69,6 +69,12 @@ for location in locations:
     a.filterByDate('categorized/' + location['filename'], start, end)
 ```
 
+Set time params
+```python
+for location in locations:
+    a.setDayNHour('categorized/' + location['filename'])
+```
+
 Analyze the stories
 ```python
 a = Analyzer()
