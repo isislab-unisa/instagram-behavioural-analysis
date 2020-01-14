@@ -8,3 +8,4 @@ Instagram-Behavioural-Analysis is a Python module realized for getting info abou
 *   [Instagram](https://instagram.com) account
 *   [instagram_private_api](https://github.com/ping/instagram_private_api/) module
 *   [Here](https://developer.here.com/) app id and code
+*   [Pandas](https://pandas.pydata.org/) module
