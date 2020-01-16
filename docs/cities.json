@@ -112,11 +112,11 @@
     {
         "city": "milan",
         "stories": 70329,
-        "color": "turquoise",
+        "color": "cadet blue",
         "rgba": [
-            64,
-            224,
-            208,
+            95,
+            158,
+            160,
             1
         ]
     },

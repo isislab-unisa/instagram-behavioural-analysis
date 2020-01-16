@@ -55,6 +55,9 @@ $("#top-cat-locations").change(() => {
     const period = format === "day" ? $("#top-cat-days").val() : "week"
     const lastLocationIndex = locations.length - 1
 
+    if(locations.length === 0)
+        resetTopCategoriesData()
+
     // Get for each selected location the checkins for every category
     const locationsDict = {}
     const categoriesDict = {}
@@ -257,6 +260,8 @@ function createTopCategoriesChart() {
             }],
             xAxes: [{
                 gridLines: {
+                    fontSize: 14,
+                    fontFamily: "Bold",
                     zeroLineColor: "black",
                     zeroLineWidth: 0.5
                 },
@@ -266,16 +271,17 @@ function createTopCategoriesChart() {
                 },
                 scaleLabel: {
                     display: true,
-                    labelString: "categories",
+                    // labelString: "categories",
                     fontSize: 30,
                     fontFamily: "Bold"
                 },
+                maxBarThickness: 150
             }]
         },
     }
 
     topCatChart = new Chart(canvas, {
-        type: 'bar',
+        type: "bar",
         data: {
             labels: [],
             datasets: [{
@@ -316,22 +322,13 @@ function createLocTopCategoriesChart(data, text) {
         scales: {
             yAxes: [{
                 gridLines: {
-                    display: false
-                },
-                ticks: {
-                    fontSize: 20,
-                    fontFamily: "Bold",
-                }
-            }],
-            xAxes: [{
-                gridLines: {
                     zeroLineColor: "black",
                     zeroLineWidth: 0.5
                 },
                 ticks: {
                     min: 0,
-                    stepsize: 100,
-                    fontSize: 16,
+                    stepSize: 500,
+                    fontSize: 20,
                     fontFamily: "Bold",
                 },
                 scaleLabel: {
@@ -340,11 +337,29 @@ function createLocTopCategoriesChart(data, text) {
                     fontSize: 30,
                     fontFamily: "Bold"
                 },
+            }],
+            xAxes: [{
+                gridLines: {
+                    fontSize: 14,
+                    fontFamily: "Bold",
+                    zeroLineColor: "black",
+                    zeroLineWidth: 0.5
+                },
+                ticks: {
+                    fontSize: 14,
+                    fontFamily: "Bold",
+                },
+                scaleLabel: {
+                    display: true,
+                    fontSize: 30,
+                    fontFamily: "Bold"
+                },
+                maxBarThickness: 150
             }]
         }
     }
     const chart = new Chart(ctx, {
-        type: "horizontalBar",
+        type: "bar",
         data: {
             labels: categories,
             datasets: [chartData]
